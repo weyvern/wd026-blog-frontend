@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
   const [{ email, password }, setFormState] = useState({
@@ -7,12 +8,14 @@ const Login = () => {
     password: ''
   });
 
+  const { isAuthenticated, signIn } = useAuth();
+
   const handleChange = e => setFormState(prev => ({ ...prev, [e.target.id]: e.target.value }));
 
   const handleSubmit = async e => {
     e.preventDefault();
     if (!email || !password) return toast.error('Please fill all the fields');
-    console.log({ email, password });
+    await signIn({ email, password });
   };
 
   return (

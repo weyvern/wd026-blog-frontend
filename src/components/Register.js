@@ -1,19 +1,29 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { useAuth } from '../context/AuthContext';
 
 const Register = () => {
-  const [{ name, email, password }, setFormState] = useState({
-    name: '',
+  const [{ firstName, lastName, email, password }, setFormState] = useState({
+    firstName: '',
+    lastName: '',
     email: '',
     password: ''
   });
+
+  const { isAuthenticated, signUp } = useAuth();
 
   const handleChange = e => setFormState(prev => ({ ...prev, [e.target.id]: e.target.value }));
 
   const handleSubmit = async e => {
     e.preventDefault();
-    if (!name || !email || !password) return toast.error('Please fill all the fields');
-    console.log(name, email, password);
+    if (!firstName || !lastName || !email || !password)
+      return toast.error('Please fill all the fields');
+    await signUp({
+      firstName,
+      lastName,
+      email,
+      password
+    });
   };
 
   return (
@@ -23,14 +33,30 @@ const Register = () => {
           <div className='row'>
             <div className='col'>
               <label htmlFor='name' className='form-label'>
-                Name:
+                First name:
               </label>
               <div className='input-group mb-3'>
                 <input
                   type='text'
                   className='form-control'
-                  id='name'
-                  value={name}
+                  id='firstName'
+                  value={firstName}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+          </div>
+          <div className='row'>
+            <div className='col'>
+              <label htmlFor='name' className='form-label'>
+                Last name:
+              </label>
+              <div className='input-group mb-3'>
+                <input
+                  type='text'
+                  className='form-control'
+                  id='lastName'
+                  value={lastName}
                   onChange={handleChange}
                 />
               </div>
