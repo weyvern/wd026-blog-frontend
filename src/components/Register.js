@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-const Register = () => {
+const Register = ({ isAuthenticated, setToken }) => {
   const [{ firstName, lastName, email, password }, setFormState] = useState({
     firstName: '',
     lastName: '',
@@ -12,16 +13,33 @@ const Register = () => {
   const handleChange = e => setFormState(prev => ({ ...prev, [e.target.id]: e.target.value }));
 
   const handleSubmit = async e => {
-    e.preventDefault();
-    if (!firstName || !lastName || !email || !password) return toast.error('Please fill all the fields');
-    console.log({
-      firstName,
-      lastName,
-      email,
-      password
-    });
+    try {
+      e.preventDefault();
+      if (!firstName || !lastName || !email || !password) return toast.error('Please fill all the fields');
+      const res = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/auth/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          password
+        })
+      });
+      const { token, error } = await res.json();
+      if (token) {
+        localStorage.setItem('token', token);
+        return setToken(token);
+      }
+      if (error) return toast.error(error);
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
+  if (isAuthenticated) return <Navigate to='/' />;
   return (
     <div className='container'>
       <div className='mt-5 row justify-content-center'>

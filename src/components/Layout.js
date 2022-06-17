@@ -2,7 +2,7 @@ import { Link, NavLink, Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Layout = () => {
+const Layout = ({ user, isAuthenticated, logOut }) => {
   return (
     <>
       <ToastContainer />
@@ -24,6 +24,11 @@ const Layout = () => {
           </button>
           <div className='collapse navbar-collapse' id='navbarsExample02'>
             <ul className='navbar-nav ms-auto'>
+              {user && (
+                <li className='nav-item'>
+                  <span className='nav-link'> Welcome back {user.firstName} ❤️</span>
+                </li>
+              )}
               <li className='nav-item'>
                 <NavLink to='/' className='nav-link'>
                   Home
@@ -34,21 +39,31 @@ const Layout = () => {
                   About
                 </NavLink>
               </li>
-              <li className='nav-item'>
-                <NavLink to='/register' className='nav-link'>
-                  Register
-                </NavLink>
-              </li>
-              <li className='nav-item'>
-                <NavLink to='/login' className='nav-link'>
-                  Login
-                </NavLink>
-              </li>
-              <li className='nav-item'>
-                <NavLink to='/new-post' className='nav-link'>
-                  Create post
-                </NavLink>
-              </li>
+              {isAuthenticated ? (
+                <>
+                  <li className='nav-item'>
+                    <NavLink to='/auth/new-post' className='nav-link'>
+                      Create post
+                    </NavLink>
+                  </li>
+                  <li className='nav-item' onClick={logOut} style={{ cursor: 'pointer' }}>
+                    <span className='nav-link'>Log out</span>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className='nav-item'>
+                    <NavLink to='/register' className='nav-link'>
+                      Register
+                    </NavLink>
+                  </li>
+                  <li className='nav-item'>
+                    <NavLink to='/login' className='nav-link'>
+                      Login
+                    </NavLink>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>

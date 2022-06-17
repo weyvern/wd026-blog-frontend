@@ -17,13 +17,17 @@ const CreatePost = () => {
     try {
       e.preventDefault();
       if (!title || !image || !body) return toast.error('All fields are required');
-      const data = JSON.stringify({ title, author, image, body });
+
       const { data: newPost } = await axios.post(
         `${process.env.REACT_APP_BLOG_API_URL}/posts`,
-        data
+        { title, author, image, body },
+        {
+          headers: {
+            Authorization: localStorage.getItem('token')
+          }
+        }
       );
       navigate(`/post/${newPost._id}`);
-
       setFormState({
         title: '',
         image: '',
@@ -43,13 +47,7 @@ const CreatePost = () => {
               <label htmlFor='title' className='form-label'>
                 Title
               </label>
-              <input
-                type='text'
-                className='form-control'
-                id='title'
-                value={title}
-                onChange={handleInputChange}
-              />
+              <input type='text' className='form-control' id='title' value={title} onChange={handleInputChange} />
             </div>
           </div>
           <div className='col-md-6'>
@@ -57,13 +55,7 @@ const CreatePost = () => {
               <label htmlFor='image' className='form-label'>
                 Image
               </label>
-              <input
-                type='text'
-                className='form-control'
-                id='image'
-                value={image}
-                onChange={handleInputChange}
-              />
+              <input type='text' className='form-control' id='image' value={image} onChange={handleInputChange} />
             </div>
           </div>
           <div className='col-12'>
@@ -71,12 +63,7 @@ const CreatePost = () => {
               <label htmlFor='body' className='form-label'>
                 Body
               </label>
-              <textarea
-                className='form-control'
-                id='body'
-                value={body}
-                onChange={handleInputChange}
-              />
+              <textarea className='form-control' id='body' value={body} onChange={handleInputChange} />
             </div>
           </div>
 

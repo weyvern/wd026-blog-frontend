@@ -32,6 +32,9 @@ const SinglePost = () => {
       <div className='container mt-5'>
         <div className='row'>
           <h1 className='text-center'>{post.title}</h1>
+          <h5 className='text-center'>
+            By: {post.author.firstName} {post.author.lastName}
+          </h5>
           <p>{post.body}</p>
         </div>
       </div>
