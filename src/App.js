@@ -1,5 +1,4 @@
 import { Routes, Route } from 'react-router-dom';
-import AuthState from './context/AuthContext';
 import Login from './components/Login';
 import Register from './components/Register';
 import Layout from './components/Layout';
@@ -11,7 +10,7 @@ import NotFound from './components/NotFound';
 
 const App = () => {
   return (
-    <AuthState>
+    <>
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />} />
@@ -23,7 +22,7 @@ const App = () => {
           <Route path='*' element={<NotFound />} />
         </Route>
       </Routes>
-    </AuthState>
+    </>
   );
 };
 

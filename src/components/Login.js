@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
   const [{ email, password }, setFormState] = useState({
@@ -8,14 +7,12 @@ const Login = () => {
     password: ''
   });
 
-  const { isAuthenticated, signIn } = useAuth();
-
   const handleChange = e => setFormState(prev => ({ ...prev, [e.target.id]: e.target.value }));
 
   const handleSubmit = async e => {
     e.preventDefault();
     if (!email || !password) return toast.error('Please fill all the fields');
-    await signIn({ email, password });
+    console.log({ email, password });
   };
 
   return (
@@ -28,13 +25,7 @@ const Login = () => {
                 Email:
               </label>
               <div className='input-group mb-3'>
-                <input
-                  type='email'
-                  className='form-control'
-                  id='email'
-                  value={email}
-                  onChange={handleChange}
-                />
+                <input type='email' className='form-control' id='email' value={email} onChange={handleChange} />
               </div>
             </div>
           </div>
@@ -44,13 +35,7 @@ const Login = () => {
                 Password:
               </label>
               <div className='input-group mb-3'>
-                <input
-                  type='password'
-                  className='form-control'
-                  id='password'
-                  value={password}
-                  onChange={handleChange}
-                />
+                <input type='password' className='form-control' id='password' value={password} onChange={handleChange} />
               </div>
             </div>
           </div>

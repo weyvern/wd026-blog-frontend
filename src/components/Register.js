@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { useAuth } from '../context/AuthContext';
 
 const Register = () => {
   const [{ firstName, lastName, email, password }, setFormState] = useState({
@@ -10,15 +9,12 @@ const Register = () => {
     password: ''
   });
 
-  const { isAuthenticated, signUp } = useAuth();
-
   const handleChange = e => setFormState(prev => ({ ...prev, [e.target.id]: e.target.value }));
 
   const handleSubmit = async e => {
     e.preventDefault();
-    if (!firstName || !lastName || !email || !password)
-      return toast.error('Please fill all the fields');
-    await signUp({
+    if (!firstName || !lastName || !email || !password) return toast.error('Please fill all the fields');
+    console.log({
       firstName,
       lastName,
       email,
@@ -36,13 +32,7 @@ const Register = () => {
                 First name:
               </label>
               <div className='input-group mb-3'>
-                <input
-                  type='text'
-                  className='form-control'
-                  id='firstName'
-                  value={firstName}
-                  onChange={handleChange}
-                />
+                <input type='text' className='form-control' id='firstName' value={firstName} onChange={handleChange} />
               </div>
             </div>
           </div>
@@ -52,13 +42,7 @@ const Register = () => {
                 Last name:
               </label>
               <div className='input-group mb-3'>
-                <input
-                  type='text'
-                  className='form-control'
-                  id='lastName'
-                  value={lastName}
-                  onChange={handleChange}
-                />
+                <input type='text' className='form-control' id='lastName' value={lastName} onChange={handleChange} />
               </div>
             </div>
           </div>
@@ -68,13 +52,7 @@ const Register = () => {
                 Email:
               </label>
               <div className='input-group mb-3'>
-                <input
-                  type='email'
-                  className='form-control'
-                  id='email'
-                  value={email}
-                  onChange={handleChange}
-                />
+                <input type='email' className='form-control' id='email' value={email} onChange={handleChange} />
               </div>
             </div>
           </div>
@@ -84,13 +62,7 @@ const Register = () => {
                 Password:
               </label>
               <div className='input-group mb-3'>
-                <input
-                  type='password'
-                  className='form-control'
-                  id='password'
-                  value={password}
-                  onChange={handleChange}
-                />
+                <input type='password' className='form-control' id='password' value={password} onChange={handleChange} />
               </div>
             </div>
           </div>
